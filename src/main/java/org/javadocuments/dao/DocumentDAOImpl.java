@@ -27,6 +27,7 @@ public class DocumentDAOImpl implements DocumentDAO {
 
     @Override
     public Document getDocumentById(int id) {
+        System.out.println("getDocumentById");
         jdbcTemplate = new JdbcTemplate(dataSource);
         String sql = "SELECT * FROM documents WHERE id = ?";
         return (Document)jdbcTemplate.queryForObject(sql, new Object[]{id}, new BeanPropertyRowMapper(Document.class));

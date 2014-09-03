@@ -3,12 +3,15 @@ package org.javadocuments;
 import org.javadocuments.dao.DocumentDAO;
 import org.javadocuments.domain.Document;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.Date;
 
 public class App {
     public static void main(String[] args) {
+        //SpringApplication.run(App.class, args);
+        /*
         ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
 
         DocumentDAO documentDAO = (DocumentDAO)context.getBean("documentDAO");
@@ -25,5 +28,6 @@ public class App {
 
         documentDAO.deleteDocument(14);
         context.close();
+        */
     }
 }
