@@ -47,7 +47,7 @@ public class DocumentController {
     }
 
     @RequestMapping(value="search", method = RequestMethod.POST)
-    public SolrDocumentList serachDocuments(@RequestParam HashMap<String, String> searchTerms) throws SolrServerException {
+    public SolrDocumentList serachDocuments(@RequestBody final Map searchTerms) throws SolrServerException {
         HttpSolrServer solrServer = new HttpSolrServer("http://localhost:8080/solr/javadocuments");
         System.out.println(searchTerms);
         SolrQuery query = new SolrQuery();
@@ -60,7 +60,7 @@ public class DocumentController {
     }
 
     @RequestMapping(value = "/indexAll", method = RequestMethod.GET)
-    public boolean indexAllDocuments()  {
+    public List<Document> indexAllDocuments()  {
         List<Document> docList = documentService.getAllDocuments();
         HttpSolrServer solrServer = new HttpSolrServer("http://localhost:8080/solr/javadocuments");
 
@@ -90,6 +90,6 @@ public class DocumentController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return true;
+        return docList;
     }
 }

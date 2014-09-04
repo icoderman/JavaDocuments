@@ -2,6 +2,8 @@ package org.javadocuments.domain;
 
 import com.sun.javafx.beans.IDProperty;
 import org.apache.solr.client.solrj.beans.Field;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+import org.javadocuments.utils.JsonDateSerializer;
 import org.springframework.data.annotation.Id;
 
 import javax.xml.bind.annotation.XmlRootElement;
@@ -79,6 +81,7 @@ public class Document {
         this.description = description;
     }
 
+    @JsonSerialize(using=JsonDateSerializer.class)
     public Date getCreatedDate() {
         return createdDate;
     }
