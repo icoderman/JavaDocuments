@@ -1,17 +1,32 @@
 package org.javadocuments.domain;
 
+import com.sun.javafx.beans.IDProperty;
+import org.apache.solr.client.solrj.beans.Field;
+import org.springframework.data.annotation.Id;
+
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
 
-/**
- * Created by omand on 01.09.2014.
- */
+//XmlRootElement
 public class Document {
 
+    @Id
+    @Field
     private int id;
+
+    @Field
     private String name;
+
+    @Field
     private String author;
+
+    @Field
     private String path;
+
+    @Field
     private String description;
+
+    @Field
     private Date createdDate;
 
     public Document() {

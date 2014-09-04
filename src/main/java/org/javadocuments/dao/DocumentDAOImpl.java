@@ -27,14 +27,13 @@ public class DocumentDAOImpl implements DocumentDAO {
 
     @Override
     public Document getDocumentById(int id) {
-        System.out.println("getDocumentById");
         jdbcTemplate = new JdbcTemplate(dataSource);
         String sql = "SELECT * FROM documents WHERE id = ?";
         return (Document)jdbcTemplate.queryForObject(sql, new Object[]{id}, new BeanPropertyRowMapper(Document.class));
     }
 
     @Override
-    public boolean addDocument(Document document) {
+    public int addDocument(Document document) {
         /* Inserting without SimpleJdbcInsert
         String sql = "insert into documents (name, author, path, description, createdDate) values (?, ?, ?, ?, now())";
         jdbcTemplate = new JdbcTemplate(dataSource);
@@ -51,8 +50,11 @@ public class DocumentDAOImpl implements DocumentDAO {
         newDocument.put("path", document.getPath());
         newDocument.put("description", document.getDescription());
         newDocument.put("createddate", new Timestamp(new java.util.Date().getTime()));
-        int numRows = simpleJdbcInsert.execute(newDocument);
-        return (numRows>0)?true:false;
+        //int numRows = simpleJdbcInsert.execute(newDocument);
+        //return (numRows>0)?true:false;
+        Number resId = simpleJdbcInsert.executeAndReturnKey(newDocument);
+        // convert Number to Int using ((Number) key).intValue()
+        return ((Number)resId).intValue();
     }
 
     @Override
@@ -64,15 +66,17 @@ public class DocumentDAOImpl implements DocumentDAO {
     }
 
     @Override
-    public boolean deleteDocument(int documentId) {
+    public boolean deleteDocument(int id) {
         String sql = "DELETE FROM documents WHERE id=?";
-        int numRows = jdbcTemplate.update(sql, documentId);
+        int numRows = jdbcTemplate.update(sql, id);
         return (numRows>0)?true:false;
     }
 
     @Override
     public List<Document> getAllDocuments() {
-        return null;
+        jdbcTemplate = new JdbcTemplate(dataSource);
+        String sql = "SELECT * FROM documents";
+        return jdbcTemplate.query(sql, new BeanPropertyRowMapper(Document.class));
     }
 
     @Override
