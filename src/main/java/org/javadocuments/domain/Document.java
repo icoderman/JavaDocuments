@@ -1,6 +1,5 @@
 package org.javadocuments.domain;
 
-import com.sun.javafx.beans.IDProperty;
 import org.apache.solr.client.solrj.beans.Field;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.javadocuments.utils.JsonDateSerializer;

@@ -20,7 +20,7 @@ public class DocumentController {
     @Autowired
     private SolrService solrService;
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json")
     public Document getDocument(@PathVariable Integer id) {
         return documentService.getDocumentById(id);
     }

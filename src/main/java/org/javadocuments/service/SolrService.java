@@ -1,7 +1,6 @@
 package org.javadocuments.service;
 
 import org.apache.solr.client.solrj.SolrServerException;
-import org.apache.solr.common.SolrDocumentList;
 import org.javadocuments.domain.Document;
 
 import java.util.List;
