@@ -8,6 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 public interface SolrService {
-    public SolrDocumentList searchDocuments(Map searchTerms) throws SolrServerException;
+    public List<Document> searchDocuments(Map searchTerms) throws SolrServerException;
     public  List<Document> indexAllDocuments(List<Document> docList);
 }

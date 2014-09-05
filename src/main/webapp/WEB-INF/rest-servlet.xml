@@ -13,7 +13,6 @@
 
 
     <!-- Define the folders that will automatically search for bean-components (@Component, @Service) -->
-    <context:component-scan base-package="org.javadocuments.dao"/>
     <context:component-scan base-package="org.javadocuments.service"/>
     <context:component-scan base-package="org.javadocuments.controller" />
 
@@ -33,14 +32,10 @@
     </bean>
 
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-
         <property name="driverClassName" value="org.postgresql.Driver" />
         <property name="url" value="jdbc:postgresql://localhost:5432/documents" />
         <property name="username" value="postgres" />
         <property name="password" value="postgres" />
     </bean>
-
-
-
 
 </beans>

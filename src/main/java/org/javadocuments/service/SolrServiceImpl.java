@@ -4,6 +4,7 @@ import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.HttpSolrServer;
 import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.SolrInputDocument;
 import org.javadocuments.domain.Document;
@@ -11,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -21,14 +24,26 @@ public class SolrServiceImpl implements SolrService {
     HttpSolrServer solrServer;
 
     @Override
-    public SolrDocumentList searchDocuments(Map searchTerms) throws SolrServerException {
+    public List<Document> searchDocuments(Map searchTerms) throws SolrServerException {
         SolrQuery query = new SolrQuery();
         for (Object objKey : searchTerms.keySet()) {
             query.setQuery(objKey.toString()+":"+searchTerms.get(objKey));
         }
         QueryResponse response = solrServer.query(query);
         SolrDocumentList documentList = response.getResults();
-        return documentList;
+
+        List<Document> resDocList = new ArrayList<Document>();
+        for (SolrDocument solrDoc: documentList) {
+            Document newDoc = new Document();
+            newDoc.setId((Integer)solrDoc.getFieldValue("id"));
+            newDoc.setName((String)solrDoc.getFieldValue("name"));
+            newDoc.setAuthor((String)solrDoc.getFieldValue("author"));
+            newDoc.setPath((String)solrDoc.getFieldValue("path"));
+            newDoc.setDescription((String)solrDoc.getFieldValue("description"));
+            newDoc.setCreatedDate((Date)solrDoc.getFieldValue("createddate"));
+            resDocList.add(newDoc);
+        }
+        return resDocList;
     }
 
     @Override
