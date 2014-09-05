@@ -31,8 +31,9 @@ public class DocumentController {
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public Document addDocument(@RequestBody final Document document) {
+    public Document addDocument(@RequestBody Document document) {
         int id = documentService.addDocument(document);
+        System.out.println(document);
         return documentService.getDocumentById(id);
     }
 
