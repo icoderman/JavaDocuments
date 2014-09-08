@@ -14,9 +14,8 @@ public class DocumentServiceImpl implements DocumentService {
     private DocumentDAO documentDAO;
 
     @Override
-    public Document getDocumentById(int id) {
-        System.out.println(id);
-        return documentDAO.getDocumentById(id);
+    public Document getDocument(int id) {
+        return documentDAO.getDocument(id);
     }
 
     @Override

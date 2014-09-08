@@ -1,17 +1,11 @@
 package org.javadocuments.domain;
 
 import org.apache.solr.client.solrj.beans.Field;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
-import org.javadocuments.utils.JsonDateSerializer;
-import org.springframework.data.annotation.Id;
 
-import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
 
-//XmlRootElement
-public class Document {
+public class SolrDocument {
 
-    @Id
     @Field
     private int id;
 
@@ -30,10 +24,10 @@ public class Document {
     @Field
     private Date createdDate;
 
-    public Document() {
+    public SolrDocument() {
     }
 
-    public Document(String name, String author, String path, String description) {
+    public SolrDocument(String name, String author, String path, String description) {
         this.name = name;
         this.author = author;
         this.path = path;
@@ -80,7 +74,6 @@ public class Document {
         this.description = description;
     }
 
-    @JsonSerialize(using=JsonDateSerializer.class)
     public Date getCreatedDate() {
         return createdDate;
     }
@@ -91,6 +84,6 @@ public class Document {
 
     @Override
     public String toString() {
-        return String.format( "Document [id=%s, name=%s, author=%s, path=%s, description=%s, date=%s]",id, name, author, path, description, createdDate );
+        return String.format("Document [id=%s, name=%s, author=%s, path=%s, description=%s, date=%s]", id, name, author, path, description, createdDate);
     }
 }

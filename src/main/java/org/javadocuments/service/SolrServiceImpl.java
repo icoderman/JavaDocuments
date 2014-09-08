@@ -4,10 +4,10 @@ import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.HttpSolrServer;
 import org.apache.solr.client.solrj.response.QueryResponse;
-import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.SolrInputDocument;
 import org.javadocuments.domain.Document;
+import org.javadocuments.domain.SolrDocument;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,10 +21,17 @@ import java.util.Map;
 public class SolrServiceImpl implements SolrService {
 
     @Autowired
-    HttpSolrServer solrServer;
+    private HttpSolrServer solrServer;
 
+    /**
+     * Search documents by set of the search terms in format fieldName: value
+     *
+     * @param searchTerms
+     * @return
+     * @throws SolrServerException
+     */
     @Override
-    public List<Document> searchDocuments(Map searchTerms) throws SolrServerException {
+    public List<SolrDocument> searchDocuments(Map searchTerms) throws SolrServerException {
         SolrQuery query = new SolrQuery();
         for (Object objKey : searchTerms.keySet()) {
             query.setQuery(objKey.toString()+":"+searchTerms.get(objKey));
@@ -32,9 +39,10 @@ public class SolrServiceImpl implements SolrService {
         QueryResponse response = solrServer.query(query);
         SolrDocumentList documentList = response.getResults();
 
-        List<Document> resDocList = new ArrayList<Document>();
-        for (SolrDocument solrDoc: documentList) {
-            Document newDoc = new Document();
+        List<SolrDocument> resDocList = new ArrayList<SolrDocument>();
+
+        for (org.apache.solr.common.SolrDocument solrDoc: documentList) {
+            SolrDocument newDoc = new SolrDocument();
             newDoc.setId((Integer)solrDoc.getFieldValue("id"));
             newDoc.setName((String)solrDoc.getFieldValue("name"));
             newDoc.setAuthor((String)solrDoc.getFieldValue("author"));
@@ -47,9 +55,16 @@ public class SolrServiceImpl implements SolrService {
     }
 
     @Override
-    public List<Document> indexAllDocuments(List<Document> docList) {
+    public boolean indexAllDocuments(List<Document> docList) {
+        try {
+            solrServer.addBeans(docList);
+            solrServer.commit();
+            return true;
+        } catch (IOException | SolrServerException e) {
+            return false;
+        }
 
-        for(Document document: docList) {
+        /**for(Document document: docList) {
             SolrInputDocument doc = new SolrInputDocument();
 
             doc.addField("id", document.getId());
@@ -76,5 +91,6 @@ public class SolrServiceImpl implements SolrService {
             e.printStackTrace();
         }
         return docList;
+         */
     }
 }

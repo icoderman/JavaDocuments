@@ -20,6 +20,7 @@ import org.springframework.stereotype.Component;
  * http://loiane.com (Portuguese)
  */
 @Component
+//todo: convert to util
 public class JsonDateSerializer extends JsonSerializer<Date>{
 
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy HH:mm");

@@ -5,7 +5,7 @@ import org.javadocuments.domain.Document;
 
 public interface DocumentDAO {
 
-    public Document getDocumentById(int id);
+    public Document getDocument(int id);
     public int addDocument(Document document);
     public boolean updateDocument(Document document);
     public boolean deleteDocument(int id);
