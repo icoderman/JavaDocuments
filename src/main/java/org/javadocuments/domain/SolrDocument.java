@@ -15,10 +15,10 @@ public class SolrDocument {
     @Field
     private String author;
 
-    @Field
+    @Field("path_txt")
     private String path;
 
-    @Field
+    @Field("description_txt")
     private String description;
 
     @Field

@@ -116,8 +116,5 @@
             <version>0.9.1</version>
         </dependency>
 
-        <!-- for tests -->
-
-
     </dependencies>
 </project>
