@@ -1,19 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-                        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
-                        http://www.springframework.org/schema/context
-                        http://www.springframework.org/schema/context/spring-context-4.0.xsd
-                        http://www.springframework.org/schema/mvc
-                        http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
+    xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+                        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+                        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+                        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
 
     <!-- Define the folders that will automatically search for bean-components (@Component, @Service) -->
     <context:component-scan base-package="org.javadocuments"/>
 
     <mvc:annotation-driven />
+
+    <!-- Enable Annotation based Declarative Transaction Management -->
+    <tx:annotation-driven proxy-target-class="true"
+                          transaction-manager="transactionManager" />
+
+    <!-- Creating TransactionManager Bean -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
 
     <!-- dataSource bean settings will be stored in a separate file -->
     <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" p:location="/WEB-INF/main.properties"/>

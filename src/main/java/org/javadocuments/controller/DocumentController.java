@@ -6,9 +6,10 @@ import org.javadocuments.domain.SolrDocument;
 import org.javadocuments.service.DocumentService;
 import org.javadocuments.service.SolrService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpStatus;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -23,20 +24,29 @@ public class DocumentController {
     private SolrService solrService;
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public Document getDocument(@PathVariable Integer id) {
-        return documentService.getDocument(id);
+    public ResponseEntity getDocument(@PathVariable Integer id) {
+        Document resDoc =  documentService.getDocument(id);
+        if (resDoc == null) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity(resDoc, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/getAll", method = RequestMethod.GET)
-    public List<Document> getAllDocuments() {
-        return documentService.getAllDocuments();
+    public ResponseEntity getAllDocuments() {
+        List<Document> resDocList =  documentService.getAllDocuments();
+        if (resDocList == null) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity(resDocList, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public Document addDocument(@RequestBody Document document) {
-        int id = documentService.addDocument(document);
-        System.out.println(document);
-        return documentService.getDocument(id);
+    public ResponseEntity addDocument(@RequestBody Document document) {
+        if (documentService.addDocument(document)) {
+            return new ResponseEntity(HttpStatus.CREATED);
+        }
+        return new ResponseEntity(HttpStatus.BAD_REQUEST);
     }
 
     @RequestMapping(value = "search", method = RequestMethod.POST)
@@ -45,7 +55,10 @@ public class DocumentController {
     }
 
     @RequestMapping(value = "/indexAll", method = RequestMethod.GET)
-    public String indexAllDocuments() {
-        return (solrService.indexAllDocuments(documentService.getAllDocuments()))?"{result: true}":"result:false";
+    public ResponseEntity indexAllDocuments() {
+        if (solrService.indexAllDocuments(documentService.getAllDocuments())) {
+            return new ResponseEntity(HttpStatus.OK);
+        }
+        return new ResponseEntity(HttpStatus.BAD_REQUEST);
     }
 }

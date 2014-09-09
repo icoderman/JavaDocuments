@@ -1,0 +1,8 @@
+Transactions
+------------------------------------------------------------------------------------------------------------------------
+http://www.journaldev.com/2603/spring-transaction-management-example-with-jdbc
+http://www.journaldev.com/2483/jdbc-transaction-management-and-savepoint-example-tutorial
+------------------------------------------------------------------------------------------------------------------------
+
+
+

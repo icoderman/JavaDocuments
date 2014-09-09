@@ -4,6 +4,7 @@ import org.javadocuments.dao.DocumentDAO;
 import org.javadocuments.domain.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -14,32 +15,33 @@ public class DocumentServiceImpl implements DocumentService {
     private DocumentDAO documentDAO;
 
     @Override
+    @Transactional
     public Document getDocument(int id) {
         return documentDAO.getDocument(id);
     }
 
     @Override
-    public int addDocument(Document document) {
+    @Transactional
+    public boolean addDocument(Document document) {
         return documentDAO.addDocument(document);
     }
 
     @Override
+    @Transactional
     public boolean updateDocument(Document document) {
         return documentDAO.updateDocument(document);
     }
 
     @Override
+    @Transactional
     public boolean deleteDocument(int id) {
         return documentDAO.deleteDocument(id);
     }
 
     @Override
+    @Transactional
     public List<Document> getAllDocuments() {
         return documentDAO.getAllDocuments();
     }
 
-    @Override
-    public void addBatchDocuments(List<Document> documentList) {
-
-    }
 }

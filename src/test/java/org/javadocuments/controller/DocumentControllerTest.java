@@ -79,7 +79,7 @@ public class DocumentControllerTest {
 
         DocumentService mockDocumentService = org.mockito.Mockito.mock(DocumentService.class);
         when(mockDocumentService.getDocument(123)).thenReturn(newDoc);
-        when(mockDocumentService.addDocument(newDoc)).thenReturn(1);
+        when(mockDocumentService.addDocument(newDoc)).thenReturn(true);
 
         mockMvc.perform(post("/document/add")
                         .contentType(MediaType.APPLICATION_JSON)

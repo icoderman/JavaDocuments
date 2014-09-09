@@ -1,6 +1,5 @@
 package org.javadocuments.domain;
 
-import org.apache.solr.client.solrj.beans.Field;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.javadocuments.utils.JsonDateSerializer;
 import org.springframework.data.annotation.Id;
@@ -12,22 +11,16 @@ import java.util.Date;
 public class Document {
 
     @Id
-    @Field
     private int id;
 
-    @Field
     private String name;
 
-    @Field
     private String author;
 
-    @Field
     private String path;
 
-    @Field
     private String description;
 
-    @Field
     private Date createdDate;
 
     public Document() {

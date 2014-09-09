@@ -39,7 +39,7 @@ public class DocumentDAOImpl implements DocumentDAO {
     @Override
     public Document getDocument(int id) {
         jdbcTemplate = new JdbcTemplate(dataSource);
-           try {
+        try {
             return (Document) jdbcTemplate.queryForObject(SQL_GET_DOCUMENT_BY_ID, new Object[]{id}, new BeanPropertyRowMapper(Document.class));
         } catch (EmptyResultDataAccessException e) {
             // Document not found
@@ -49,7 +49,7 @@ public class DocumentDAOImpl implements DocumentDAO {
     }
 
     @Override
-    public int addDocument(Document document) {
+    public boolean addDocument(Document document) {
         /* Inserting without SimpleJdbcInsert
         String sql = "insert into documents (name, author, path, description, createdDate) values (?, ?, ?, ?, now())";
         jdbcTemplate = new JdbcTemplate(dataSource);
@@ -61,8 +61,10 @@ public class DocumentDAOImpl implements DocumentDAO {
         return (numRows>0)?true:false;
         */
         document.setCreatedDate(new Date());
-        Number resId = simpleJdbcInsert.executeAndReturnKey(new BeanPropertySqlParameterSource(document));
-        return resId.intValue();
+        if (simpleJdbcInsert.execute(new BeanPropertySqlParameterSource(document)) > 0 ) {
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -81,7 +83,13 @@ public class DocumentDAOImpl implements DocumentDAO {
     @Override
     public List<Document> getAllDocuments() {
         jdbcTemplate = new JdbcTemplate(dataSource);
-        return jdbcTemplate.query(SQL_GET_ALL_DOCUMENTS, new BeanPropertyRowMapper(Document.class));
+        try {
+            return jdbcTemplate.query(SQL_GET_ALL_DOCUMENTS, new BeanPropertyRowMapper(Document.class));
+        } catch (EmptyResultDataAccessException e) {
+            // Document not found
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
