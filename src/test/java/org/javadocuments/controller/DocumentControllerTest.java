@@ -1,91 +1,57 @@
 package org.javadocuments.controller;
 
 import org.javadocuments.domain.Document;
-import org.javadocuments.service.DocumentService;
-import org.javadocuments.service.SolrService;
-
-import org.junit.Before;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import org.mockito.*;
-
-import org.springframework.http.MediaType;
+import org.springframework.http.*;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.client.RestTemplate;
 
-import java.util.Date;
+import java.util.Arrays;
 
-import static org.hamcrest.Matchers.*;
-import static org.mockito.Mockito.*;
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.core.IsEqual.equalTo;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:test-context.xml")
 public class DocumentControllerTest {
 
-    @InjectMocks
-    private DocumentController documentController;
-
-    @Mock
-    private DocumentService documentService;
-
-    @Mock
-    private SolrService solrService;
-
-    private MockMvc mockMvc;
-
-    @Before
-    public void setup() {
-        MockitoAnnotations.initMocks(this);
-        mockMvc = MockMvcBuilders.standaloneSetup(documentController).build();
-     }
+    private static String BASE_URI = "http://localhost:8080/document/";
 
     @Test
-    public void testGetDocument() throws Exception {
-        DocumentService mockDocumentService = org.mockito.Mockito.mock(DocumentService.class);
-        Document newDoc = new Document();
-        newDoc.setId(16);
-        newDoc.setName("TestName");
-        newDoc.setAuthor("TestAuthor");
-        newDoc.setPath("TestPath");
-        newDoc.setDescription("TestDesc");
-        newDoc.setCreatedDate(new Date());
-
-        when(mockDocumentService.getDocument(16)).thenReturn(newDoc);
-
-        mockMvc.perform(get("/document/16"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                //.andExpect(content().contentType("application/json"))
-                .andExpect(jsonPath("$.id", is("16")));
+    public void  whenRetrievingADocument_thenCorrect() {
+        final String URI = BASE_URI + "{id}";
+        final RestTemplate restTemplate = new RestTemplate();
+        final Document resource = restTemplate.getForObject(URI, Document.class, "16");
+        assertThat(resource, notNullValue());
     }
 
     @Test
-    public void testAddDocument()throws Exception {
+    public void givenConsumingJson_whenReadingTheDocument_thenCorrect() {
+        final String URI = BASE_URI + "{id}";
+        final RestTemplate restTemplate = new RestTemplate();
+        final HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+        final HttpEntity<String> entity = new HttpEntity<String>(headers);
+        final ResponseEntity<Document> response = restTemplate.exchange(URI, HttpMethod.GET, entity, Document.class, "16");
+        final Document resource = response.getBody();
+        assertThat(resource, notNullValue());
+    }
 
-        Document newDoc = new Document();
-        newDoc.setId(123);
-        newDoc.setName("TestName");
-        newDoc.setAuthor("TestAuthor");
-        newDoc.setPath("TestPath");
-        newDoc.setDescription("TestDesc");
-        newDoc.setCreatedDate(new Date());
-
-        DocumentService mockDocumentService = org.mockito.Mockito.mock(DocumentService.class);
-        when(mockDocumentService.getDocument(123)).thenReturn(newDoc);
-        when(mockDocumentService.addDocument(newDoc)).thenReturn(true);
-
-        mockMvc.perform(post("/document/add")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isOk());
+    @Test
+    public void givenConsumingJson_whenWritingTheDocument_thenCorrect() {
+        final String URI = BASE_URI + "add";
+        final RestTemplate restTemplate = new RestTemplate();
+        final Document resource = new Document("TestName", "TestAuthor", "TestPath", "TestDescription");
+        final HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+        headers.setContentType((MediaType.APPLICATION_JSON));
+        final HttpEntity<Document> entity = new HttpEntity<Document>(resource, headers);
+        final ResponseEntity<Document> response = restTemplate.exchange(URI, HttpMethod.POST, entity, Document.class);
+        assertThat(response.getStatusCode(),  equalTo(HttpStatus.CREATED));
     }
 
 }

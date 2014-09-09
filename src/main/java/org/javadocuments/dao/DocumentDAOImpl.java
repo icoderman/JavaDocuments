@@ -61,10 +61,8 @@ public class DocumentDAOImpl implements DocumentDAO {
         return (numRows>0)?true:false;
         */
         document.setCreatedDate(new Date());
-        if (simpleJdbcInsert.execute(new BeanPropertySqlParameterSource(document)) > 0 ) {
-            return true;
-        }
-        return false;
+        int numRows = simpleJdbcInsert.execute(new BeanPropertySqlParameterSource(document));
+        return (numRows > 0);
     }
 
     @Override
@@ -90,10 +88,5 @@ public class DocumentDAOImpl implements DocumentDAO {
             e.printStackTrace();
         }
         return null;
-    }
-
-    @Override
-    public void addBatchDocuments(List<Document> documentList) {
-
     }
 }

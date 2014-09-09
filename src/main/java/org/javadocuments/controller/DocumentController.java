@@ -54,6 +54,14 @@ public class DocumentController {
         return solrService.searchDocuments(searchTerms);
     }
 
+    @RequestMapping(value = "simplesearch", method = RequestMethod.POST)
+    public List<SolrDocument> simpleSearchDocuments(@RequestBody final Map searchTerms) throws SolrServerException {
+        if (searchTerms.containsKey("text")) {
+            return solrService.simpleSearchDocuments((String)searchTerms.get("text"));
+        }
+        return null;
+    }
+
     @RequestMapping(value = "/indexAll", method = RequestMethod.GET)
     public ResponseEntity indexAllDocuments() {
         if (solrService.indexAllDocuments(documentService.getAllDocuments())) {

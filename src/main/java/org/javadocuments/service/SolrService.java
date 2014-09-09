@@ -10,5 +10,6 @@ import java.util.Map;
 
 public interface SolrService {
     public List<SolrDocument> searchDocuments(Map searchTerms) throws SolrServerException;
+    public List<SolrDocument> simpleSearchDocuments(String searchTerm) throws SolrServerException;
     public boolean indexAllDocuments(List<Document> docList);
 }

@@ -22,7 +22,7 @@ public class SolrDocument {
     private String description;
 
     @Field
-    private Date createdDate;
+    private Date createddate;
 
     public SolrDocument() {
     }
@@ -74,16 +74,16 @@ public class SolrDocument {
         this.description = description;
     }
 
-    public Date getCreatedDate() {
-        return createdDate;
+    public Date getCreateddate() {
+        return createddate;
     }
 
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
+    public void setCreateddate(Date createddate) {
+        this.createddate = createddate;
     }
 
     @Override
     public String toString() {
-        return String.format("Document [id=%s, name=%s, author=%s, path=%s, description=%s, date=%s]", id, name, author, path, description, createdDate);
+        return String.format("Document [id=%s, name=%s, author=%s, path=%s, description=%s, date=%s]", id, name, author, path, description, createddate);
     }
 }

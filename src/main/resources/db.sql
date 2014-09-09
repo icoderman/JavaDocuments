@@ -4,5 +4,5 @@ CREATE TABLE documents (
     author varchar(255) not null,
     path varchar(255) not null,
     description text not null,
-    createdDate date
+    createddate date
 );

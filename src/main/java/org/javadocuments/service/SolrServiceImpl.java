@@ -47,7 +47,30 @@ public class SolrServiceImpl implements SolrService {
             newDoc.setAuthor((String)solrDoc.getFieldValue("author"));
             newDoc.setPath((String)solrDoc.getFieldValue("path"));
             newDoc.setDescription((String)solrDoc.getFieldValue("description"));
-            newDoc.setCreatedDate((Date)solrDoc.getFieldValue("createddate"));
+            newDoc.setCreateddate((Date) solrDoc.getFieldValue("createddate"));
+            resDocList.add(newDoc);
+        }
+        return resDocList;
+    }
+
+    @Override
+    public List<SolrDocument> simpleSearchDocuments(String searchTerm) throws SolrServerException {
+        SolrQuery query = new SolrQuery();
+        query.setQuery("text:"+searchTerm);
+
+        QueryResponse response = solrServer.query(query);
+        SolrDocumentList documentList = response.getResults();
+
+        List<SolrDocument> resDocList = new ArrayList<SolrDocument>();
+
+        for (org.apache.solr.common.SolrDocument solrDoc: documentList) {
+            SolrDocument newDoc = new SolrDocument();
+            newDoc.setId((Integer)solrDoc.getFieldValue("id"));
+            newDoc.setName((String)solrDoc.getFieldValue("name"));
+            newDoc.setAuthor((String)solrDoc.getFieldValue("author"));
+            newDoc.setPath((String)solrDoc.getFieldValue("path"));
+            newDoc.setDescription((String)solrDoc.getFieldValue("description"));
+            newDoc.setCreateddate((Date) solrDoc.getFieldValue("createddate"));
             resDocList.add(newDoc);
         }
         return resDocList;
@@ -55,8 +78,21 @@ public class SolrServiceImpl implements SolrService {
 
     @Override
     public boolean indexAllDocuments(List<Document> docList) {
+        List<SolrDocument> solrDocList = new ArrayList<SolrDocument>();
+
+        for(Document currDoc: docList) {
+            SolrDocument solrDocument = new SolrDocument();
+            solrDocument.setId(currDoc.getId());
+            solrDocument.setName(currDoc.getName());
+            solrDocument.setAuthor(currDoc.getAuthor());
+            solrDocument.setPath(currDoc.getPath());
+            solrDocument.setDescription(currDoc.getDescription());
+            solrDocument.setCreateddate(currDoc.getCreatedDate());
+            solrDocList.add(solrDocument);
+        }
+
         try {
-            solrServer.addBeans(docList);
+            solrServer.addBeans(solrDocList);
             solrServer.commit();
             return true;
         } catch (IOException | SolrServerException e) {
@@ -71,7 +107,7 @@ public class SolrServiceImpl implements SolrService {
             doc.addField("author", document.getAuthor());
             doc.addField("path", document.getPath());
             doc.addField("description", document.getDescription());
-            doc.addField("createddate", document.getCreatedDate());
+            doc.addField("createddate", document.getCreateddate());
 
             try {
                 solrServer.add(doc);

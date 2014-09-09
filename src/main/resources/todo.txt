@@ -1,6 +1,6 @@
 !1. Create model class for DAO and another for SOLR
-2. Implement search by word part. EX, des word description would be found (Implement google like search)
+!2. Implement search by word part. EX, des word description would be found (Implement google like search)
 3. Use dynamic fields in solr schema
 !4. Make sql queries as constants
 5. Add java docs
-6. Add @Transactional
+!6. Add @Transactional
