@@ -4,5 +4,10 @@ http://www.journaldev.com/2603/spring-transaction-management-example-with-jdbc
 http://www.journaldev.com/2483/jdbc-transaction-management-and-savepoint-example-tutorial
 ------------------------------------------------------------------------------------------------------------------------
 
+REST Testing
+------------------------------------------------------------------------------------------------------------------------
+http://java.dzone.com/articles/junit-testing-rest-services
+http://spring.io/guides/tutorials/rest/4/
+------------------------------------------------------------------------------------------------------------------------
 
 
