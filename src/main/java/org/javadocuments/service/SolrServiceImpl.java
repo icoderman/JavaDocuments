@@ -138,4 +138,24 @@ public class SolrServiceImpl implements SolrService {
         return docList;
          */
     }
+
+    @Override
+    public boolean indexDocument(Document document) {
+
+        SolrDocument solrDocument = new SolrDocument();
+        solrDocument.setId(document.getId());
+        solrDocument.setName(document.getName());
+        solrDocument.setAuthor(document.getAuthor());
+        solrDocument.setPath(document.getPath());
+        solrDocument.setDescription(document.getDescription());
+        solrDocument.setCreateddate(document.getCreatedDate());
+
+        try {
+            solrServer.addBean(solrDocument);
+            solrServer.commit();
+            return true;
+        } catch (IOException | SolrServerException e) {
+            return false;
+        }
+    }
 }

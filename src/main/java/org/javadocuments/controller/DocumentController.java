@@ -58,7 +58,7 @@ public class DocumentController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public ResponseEntity addDocument(@RequestBody Document document) {
         if (documentService.addDocument(document)) {
-            solrService.indexAllDocuments(documentService.getAllDocuments());
+            solrService.indexDocument(document);
             return new ResponseEntity(HttpStatus.CREATED);
         }
         return new ResponseEntity(HttpStatus.BAD_REQUEST);
