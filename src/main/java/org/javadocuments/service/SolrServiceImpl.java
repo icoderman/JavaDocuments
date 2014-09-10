@@ -108,37 +108,13 @@ public class SolrServiceImpl implements SolrService {
         } catch (IOException | SolrServerException e) {
             return false;
         }
-
-        /**for(Document document: docList) {
-            SolrInputDocument doc = new SolrInputDocument();
-
-            doc.addField("id", document.getId());
-            doc.addField("name", document.getName());
-            doc.addField("author", document.getAuthor());
-            doc.addField("path", document.getPath());
-            doc.addField("description", document.getDescription());
-            doc.addField("createddate", document.getCreateddate());
-
-            try {
-                solrServer.add(doc);
-            } catch (SolrServerException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        try {
-            solrServer.commit();
-        } catch (SolrServerException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return docList;
-         */
     }
 
+    /** Add document to solr
+     *
+     * @param document
+     * @return
+     */
     @Override
     public boolean indexDocument(Document document) {
 
