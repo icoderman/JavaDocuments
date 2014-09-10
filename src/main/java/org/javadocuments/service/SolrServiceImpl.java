@@ -37,7 +37,7 @@ public class SolrServiceImpl implements SolrService {
         QueryResponse response = solrServer.query(query);
         SolrDocumentList documentList = response.getResults();
 
-        List<SolrDocument> resDocList = new ArrayList<SolrDocument>();
+        List<SolrDocument> resDocList = new ArrayList<>();
 
         for (org.apache.solr.common.SolrDocument solrDoc: documentList) {
             SolrDocument newDoc = new SolrDocument();
@@ -66,7 +66,7 @@ public class SolrServiceImpl implements SolrService {
         QueryResponse response = solrServer.query(query);
         SolrDocumentList documentList = response.getResults();
 
-        List<SolrDocument> resDocList = new ArrayList<SolrDocument>();
+        List<SolrDocument> resDocList = new ArrayList<>();
 
         for (org.apache.solr.common.SolrDocument solrDoc: documentList) {
             SolrDocument newDoc = new SolrDocument();
@@ -88,7 +88,7 @@ public class SolrServiceImpl implements SolrService {
      */
     @Override
     public boolean indexAllDocuments(List<Document> docList) {
-        List<SolrDocument> solrDocList = new ArrayList<SolrDocument>();
+        List<SolrDocument> solrDocList = new ArrayList<>();
 
         for(Document currDoc: docList) {
             SolrDocument solrDocument = new SolrDocument();

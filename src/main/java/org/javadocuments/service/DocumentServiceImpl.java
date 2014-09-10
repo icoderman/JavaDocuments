@@ -49,7 +49,7 @@ public class DocumentServiceImpl implements DocumentService {
 
     /** Delete document
      *
-     * @param id
+     * @param id    document id
      * @return
      */
     @Override
