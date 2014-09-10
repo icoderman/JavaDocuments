@@ -4,6 +4,9 @@ import org.apache.solr.client.solrj.beans.Field;
 
 import java.util.Date;
 
+/**
+ * Model for Solr schema
+ */
 public class SolrDocument {
 
     @Field
@@ -84,6 +87,7 @@ public class SolrDocument {
 
     @Override
     public String toString() {
-        return String.format("Document [id=%s, name=%s, author=%s, path=%s, description=%s, date=%s]", id, name, author, path, description, createddate);
+        return String.format("Document [id=%s, name=%s, author=%s, path=%s, description=%s, date=%s]",
+                id, name, author, path, description, createddate);
     }
 }

@@ -22,11 +22,10 @@ public class SolrServiceImpl implements SolrService {
     @Autowired
     private HttpSolrServer solrServer;
 
-    /**
-     * Search documents by set of the search terms in format fieldName: value
+    /** Search documents by set of the search terms
      *
-     * @param searchTerms
-     * @return
+     * @param searchTerms   {fieldName: value, ...}
+     * @return  found documents
      * @throws SolrServerException
      */
     @Override
@@ -53,6 +52,12 @@ public class SolrServiceImpl implements SolrService {
         return resDocList;
     }
 
+    /** Google like search by all fields
+     *
+     * @param searchTerm    search term (can be part of the word)
+     * @return  found documents
+     * @throws SolrServerException
+     */
     @Override
     public List<SolrDocument> simpleSearchDocuments(String searchTerm) throws SolrServerException {
         SolrQuery query = new SolrQuery();
@@ -76,6 +81,11 @@ public class SolrServiceImpl implements SolrService {
         return resDocList;
     }
 
+    /** Document's indexing
+     *
+     * @param docList   documents for indexing
+     * @return  true if indexing was correct, otherwise false
+     */
     @Override
     public boolean indexAllDocuments(List<Document> docList) {
         List<SolrDocument> solrDocList = new ArrayList<SolrDocument>();

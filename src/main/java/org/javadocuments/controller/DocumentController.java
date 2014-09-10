@@ -23,6 +23,11 @@ public class DocumentController {
     @Autowired
     private SolrService solrService;
 
+    /** Get document from database by id
+     *
+     * @param id
+     * @return  document in json
+     */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity getDocument(@PathVariable Integer id) {
         Document resDoc =  documentService.getDocument(id);
@@ -32,6 +37,10 @@ public class DocumentController {
         return new ResponseEntity(resDoc, HttpStatus.OK);
     }
 
+    /** Get all documents from database
+     *
+     * @return  documents in json
+     */
     @RequestMapping(value = "/getAll", method = RequestMethod.GET)
     public ResponseEntity getAllDocuments() {
         List<Document> resDocList =  documentService.getAllDocuments();
@@ -41,19 +50,37 @@ public class DocumentController {
         return new ResponseEntity(resDocList, HttpStatus.OK);
     }
 
+    /** Add document to database
+     *
+     * @param document
+     * @return
+     */
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public ResponseEntity addDocument(@RequestBody Document document) {
         if (documentService.addDocument(document)) {
+            solrService.indexAllDocuments(documentService.getAllDocuments());
             return new ResponseEntity(HttpStatus.CREATED);
         }
         return new ResponseEntity(HttpStatus.BAD_REQUEST);
     }
 
+    /** Search document in solr by fieldname:value
+     *
+     * @param searchTerms
+     * @return
+     * @throws SolrServerException
+     */
     @RequestMapping(value = "search", method = RequestMethod.POST)
     public List<SolrDocument> searchDocuments(@RequestBody final Map searchTerms) throws SolrServerException {
         return solrService.searchDocuments(searchTerms);
     }
 
+    /** Google like search by solr
+     *
+     * @param searchTerms   field name should be "text"
+     * @return
+     * @throws SolrServerException
+     */
     @RequestMapping(value = "simplesearch", method = RequestMethod.POST)
     public List<SolrDocument> simpleSearchDocuments(@RequestBody final Map searchTerms) throws SolrServerException {
         if (searchTerms.containsKey("text")) {
@@ -62,6 +89,10 @@ public class DocumentController {
         return null;
     }
 
+    /** Indexing all documents from db to solr
+     *
+     * @return
+     */
     @RequestMapping(value = "/indexAll", method = RequestMethod.GET)
     public ResponseEntity indexAllDocuments() {
         if (solrService.indexAllDocuments(documentService.getAllDocuments())) {
