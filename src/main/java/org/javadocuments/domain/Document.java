@@ -4,6 +4,8 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.javadocuments.utils.JsonDateSerializer;
 import org.springframework.data.annotation.Id;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
 
@@ -13,12 +15,20 @@ public class Document {
     @Id
     private int id;
 
+    @NotNull
+    @Size(min=1, max=255)
     private String name;
 
+    @NotNull
+    @Size(min=1, max=255)
     private String author;
 
+    @NotNull
+    @Size(min=1, max=255)
     private String path;
 
+    @NotNull
+    @Size(min=1)
     private String description;
 
     private Date createdDate;

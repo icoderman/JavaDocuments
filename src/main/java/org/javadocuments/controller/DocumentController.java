@@ -7,9 +7,11 @@ import org.javadocuments.service.DocumentService;
 import org.javadocuments.service.SolrService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 
@@ -56,8 +58,8 @@ public class DocumentController {
      * @return
      */
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public ResponseEntity addDocument(@RequestBody Document document) {
-        if (documentService.addDocument(document)) {
+    public ResponseEntity addDocument(@RequestBody @Valid Document document, BindingResult result) {
+        if (!result.hasErrors() && documentService.addDocument(document)) {
             solrService.indexDocument(document);
             return new ResponseEntity(HttpStatus.CREATED);
         }

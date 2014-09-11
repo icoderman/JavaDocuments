@@ -20,7 +20,7 @@ public class DocumentServiceImpl implements DocumentService {
      * @return  document
      */
     @Override
-    @Transactional
+    @Transactional(readOnly=true)
     public Document getDocument(int id) {
         return documentDAO.getDocument(id);
     }
@@ -63,7 +63,7 @@ public class DocumentServiceImpl implements DocumentService {
      * @return
      */
     @Override
-    @Transactional
+    @Transactional(readOnly=true)
     public List<Document> getAllDocuments() {
         return documentDAO.getAllDocuments();
     }
