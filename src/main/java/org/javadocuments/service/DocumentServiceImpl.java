@@ -14,10 +14,11 @@ public class DocumentServiceImpl implements DocumentService {
     @Autowired
     private DocumentDAO documentDAO;
 
-    /** Get document from database  by id
+    /**
+     * Returns document from database  by id
      *
-     * @param id
-     * @return  document
+     * @param  id
+     * @return    document by id
      */
     @Override
     @Transactional(readOnly=true)
@@ -25,10 +26,11 @@ public class DocumentServiceImpl implements DocumentService {
         return documentDAO.getDocument(id);
     }
 
-    /** Add document to database
+    /**
+     * Adds document to database
      *
-     * @param document
-     * @return
+     * @param  document document, which should be added to database
+     * @return          true if document was added, otherwise false
      */
     @Override
     @Transactional
@@ -36,10 +38,11 @@ public class DocumentServiceImpl implements DocumentService {
         return documentDAO.addDocument(document);
     }
 
-    /** Update document
+    /**
+     * Updates document
      *
-     * @param document
-     * @return
+     * @param  document  document, which should be updated
+     * @return           true if document was updated, otherwise false
      */
     @Override
     @Transactional
@@ -47,10 +50,11 @@ public class DocumentServiceImpl implements DocumentService {
         return documentDAO.updateDocument(document);
     }
 
-    /** Delete document
+    /**
+     * Deletes document
      *
-     * @param id    document id
-     * @return
+     * @param  id document id
+     * @return    true if document was deleted, otherwise false
      */
     @Override
     @Transactional
@@ -58,9 +62,10 @@ public class DocumentServiceImpl implements DocumentService {
         return documentDAO.deleteDocument(id);
     }
 
-    /** Get list of all documents
+    /**
+     * Get list of all documents
      *
-     * @return
+     * @return  list of all documents
      */
     @Override
     @Transactional(readOnly=true)

@@ -25,10 +25,11 @@ public class DocumentController {
     @Autowired
     private SolrService solrService;
 
-    /** Get document from database by id
+    /**
+     * Get document from database by id
      *
-     * @param id
-     * @return  document in json
+     * @param  id id of requested document
+     * @return    document in json
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity getDocument(@PathVariable Integer id) {
@@ -39,7 +40,8 @@ public class DocumentController {
         return new ResponseEntity(resDoc, HttpStatus.OK);
     }
 
-    /** Get all documents from database
+    /**
+     * Get all documents from database
      *
      * @return  documents in json
      */
@@ -52,10 +54,11 @@ public class DocumentController {
         return new ResponseEntity(resDocList, HttpStatus.OK);
     }
 
-    /** Add document to database
+    /**
+     * Add document to database
      *
-     * @param document
-     * @return
+     * @param document document which should be added to the database and indexed in solr
+     * @return         HttpStatus (CREATED | BAD_REQUEST)
      */
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public ResponseEntity addDocument(@RequestBody @Valid Document document, BindingResult result) {
@@ -66,10 +69,11 @@ public class DocumentController {
         return new ResponseEntity(HttpStatus.BAD_REQUEST);
     }
 
-    /** Search document in solr by fieldname:value
+    /**
+     * Search document in solr by fieldname:value
      *
-     * @param searchTerms
-     * @return
+     * @param  searchTerms          JSON string in format {fieldName:searchString, fieldName2:searchString2,...}
+     * @return                      list of found documents
      * @throws SolrServerException
      */
     @RequestMapping(value = "search", method = RequestMethod.POST)
@@ -77,10 +81,11 @@ public class DocumentController {
         return solrService.searchDocuments(searchTerms);
     }
 
-    /** Google like search by solr
+    /**
+     * Google like search by solr
      *
-     * @param searchTerms   field name should be "text"
-     * @return
+     * @param  searchTerms          JSON string in format {text:searchString}
+     * @return                      list of found documents
      * @throws SolrServerException
      */
     @RequestMapping(value = "simplesearch", method = RequestMethod.POST)
@@ -91,9 +96,10 @@ public class DocumentController {
         return null;
     }
 
-    /** Indexing all documents from db to solr
+    /**
+     * Indexing all documents from database to solr
      *
-     * @return
+     * @return  HttpStatus (OK | BAD_REQUEST)
      */
     @RequestMapping(value = "/indexAll", method = RequestMethod.GET)
     public ResponseEntity indexAllDocuments() {

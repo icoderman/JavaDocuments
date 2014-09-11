@@ -22,11 +22,12 @@ public class SolrServiceImpl implements SolrService {
     @Autowired
     private HttpSolrServer solrServer;
 
-    /** Search documents by set of the search terms
+    /**
+     * Search documents by set of the search terms
      *
-     * @param searchTerms   {fieldName: value, ...}
-     * @return  found documents
-     * @throws SolrServerException
+     * @param   searchTerms          {fieldName: value, ...}
+     * @return                       found documents
+     * @throws  SolrServerException
      */
     @Override
     public List<SolrDocument> searchDocuments(Map searchTerms) throws SolrServerException {
@@ -52,10 +53,11 @@ public class SolrServiceImpl implements SolrService {
         return resDocList;
     }
 
-    /** Google like search by all fields
+    /**
+     * Google like search by all fields
      *
-     * @param searchTerm    search term (can be part of the word)
-     * @return  found documents
+     * @param  searchTerm           search term (can be part of the word)
+     * @return                      found documents
      * @throws SolrServerException
      */
     @Override
@@ -81,10 +83,11 @@ public class SolrServiceImpl implements SolrService {
         return resDocList;
     }
 
-    /** Document's indexing
+    /**
+     * Document's indexing
      *
-     * @param docList   documents for indexing
-     * @return  true if indexing was correct, otherwise false
+     * @param  docList   documents for indexing
+     * @return           true if indexing was correct, otherwise false
      */
     @Override
     public boolean indexAllDocuments(List<Document> docList) {
@@ -110,10 +113,11 @@ public class SolrServiceImpl implements SolrService {
         }
     }
 
-    /** Add document to solr
+    /**
+     * Adds document to solr
      *
-     * @param document
-     * @return
+     * @param   document  document, which should be added to the solr
+     * @return            true is document was added to solr, otherwise false
      */
     @Override
     public boolean indexDocument(Document document) {
