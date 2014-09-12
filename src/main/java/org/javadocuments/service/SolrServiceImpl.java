@@ -19,6 +19,8 @@ import java.util.Map;
 @Service
 public class SolrServiceImpl implements SolrService {
 
+    private static String GL_SEARCH_FIELD = "text";
+
     @Autowired
     private HttpSolrServer solrServer;
 
@@ -63,7 +65,7 @@ public class SolrServiceImpl implements SolrService {
     @Override
     public List<SolrDocument> simpleSearchDocuments(String searchTerm) throws SolrServerException {
         SolrQuery query = new SolrQuery();
-        query.setQuery("text:"+searchTerm);
+        query.setQuery(GL_SEARCH_FIELD+":"+searchTerm);
 
         QueryResponse response = solrServer.query(query);
         SolrDocumentList documentList = response.getResults();
@@ -84,7 +86,7 @@ public class SolrServiceImpl implements SolrService {
     }
 
     /**
-     * Document's indexing
+     * Adds list of documents to the Solr
      *
      * @param  docList   documents for indexing
      * @return           true if indexing was correct, otherwise false
@@ -114,7 +116,7 @@ public class SolrServiceImpl implements SolrService {
     }
 
     /**
-     * Adds document to solr
+     * Adds one document to the Solr
      *
      * @param   document  document, which should be added to the solr
      * @return            true is document was added to solr, otherwise false
