@@ -6,7 +6,6 @@ import org.springframework.data.annotation.Id;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
 
 //XmlRootElement

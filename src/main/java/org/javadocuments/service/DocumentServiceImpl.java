@@ -17,7 +17,7 @@ public class DocumentServiceImpl implements DocumentService {
     /**
      * Returns document from database  by id
      *
-     * @param  id
+     * @param  id requested document id
      * @return    document by id
      */
     @Override

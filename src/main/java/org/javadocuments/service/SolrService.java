@@ -4,7 +4,6 @@ import org.apache.solr.client.solrj.SolrServerException;
 import org.javadocuments.domain.Document;
 import org.javadocuments.domain.SolrDocument;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
