@@ -23,7 +23,7 @@ import static org.mockito.Mockito.when;
 public class DocumentServiceTest {
 
     @InjectMocks
-    DocumentServiceImpl documentService;
+    private DocumentServiceImpl documentService;
 
     @Mock
     private DocumentDAO documentDAO;
@@ -70,7 +70,7 @@ public class DocumentServiceTest {
 
     @Test
     public void testGetAllDocuments() {
-        List<Document> documentList = new ArrayList<Document>();
+        List<Document> documentList = new ArrayList<>();
         documentList.add(new Document());
         documentList.add(new Document());
         when(documentDAO.getAllDocuments()).thenReturn(documentList);

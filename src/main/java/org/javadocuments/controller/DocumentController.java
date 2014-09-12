@@ -32,12 +32,12 @@ public class DocumentController {
      * @return    document in json
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity getDocument(@PathVariable Integer id) {
+    public ResponseEntity<Document> getDocument(@PathVariable Integer id) {
         Document resDoc =  documentService.getDocument(id);
         if (resDoc == null) {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity(resDoc, HttpStatus.OK);
+        return new ResponseEntity<>(resDoc, HttpStatus.OK);
     }
 
     /**

@@ -1,8 +1,17 @@
-!1. Create model class for DAO and another for SOLR
+-!1. Create model class for DAO and another for SOLR
 -!2. Implement search by word part. EX, des word description would be found (Implement google like search)
 -!3. Use dynamic fields in solr schema
-!4. Make sql queries as constants
+-!4. Make sql queries as constants
 -!5. Add java docs
 -!6. Add @Transactional
-
 -!7.ResponseEntity
+
+
+!8.  use Spring BeanPropertyRowMapper
+9.  user logger
+10. learn how to retrieve Results using solr QueryResponse
+11. implement 2 delete for DB and for solr
+12. split rest-servlet
+13. use in test HSQL DB
+14. read about solr analyzers
+15. make all fields dynamic using name templates

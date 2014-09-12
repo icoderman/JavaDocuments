@@ -19,7 +19,7 @@ import java.util.Map;
 @Service
 public class SolrServiceImpl implements SolrService {
 
-    private static String GL_SEARCH_FIELD = "text";
+    private static final String GL_SEARCH_FIELD = "text";
 
     @Autowired
     private HttpSolrServer solrServer;
@@ -68,21 +68,7 @@ public class SolrServiceImpl implements SolrService {
         query.setQuery(GL_SEARCH_FIELD+":"+searchTerm);
 
         QueryResponse response = solrServer.query(query);
-        SolrDocumentList documentList = response.getResults();
-
-        List<SolrDocument> resDocList = new ArrayList<>();
-
-        for (org.apache.solr.common.SolrDocument solrDoc: documentList) {
-            SolrDocument newDoc = new SolrDocument();
-            newDoc.setId((Integer)solrDoc.getFieldValue("id"));
-            newDoc.setName((String)solrDoc.getFieldValue("name"));
-            newDoc.setAuthor((String)solrDoc.getFieldValue("author"));
-            newDoc.setPath((String)solrDoc.getFieldValue("path"));
-            newDoc.setDescription((String)solrDoc.getFieldValue("description"));
-            newDoc.setCreateddate((Date) solrDoc.getFieldValue("createddate"));
-            resDocList.add(newDoc);
-        }
-        return resDocList;
+        return response.getBeans(SolrDocument.class);
     }
 
     /**
@@ -95,6 +81,7 @@ public class SolrServiceImpl implements SolrService {
     public boolean indexAllDocuments(List<Document> docList) {
         List<SolrDocument> solrDocList = new ArrayList<>();
 
+        //todo: move to mapper
         for(Document currDoc: docList) {
             SolrDocument solrDocument = new SolrDocument();
             solrDocument.setId(currDoc.getId());

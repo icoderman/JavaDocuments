@@ -8,23 +8,17 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
-
 import javax.sql.DataSource;
-import java.sql.Timestamp;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Component
 public class DocumentDAOImpl implements DocumentDAO {
 
-    public static final String SQL_GET_DOCUMENT_BY_ID = "SELECT * FROM documents WHERE id = ?";
-    public static final String SQL_UPDATE_DOCUMENT    = "UPDATE documents SET name=?, author=?, path=?, description=? WHERE id=?";
-    public static final String SQL_DELETE_DOCUMENT    = "DELETE FROM documents WHERE id=?";
-    public static final String SQL_GET_ALL_DOCUMENTS  = "SELECT * FROM documents";
-
-    private DataSource dataSource;
+    private static final String SQL_GET_DOCUMENT_BY_ID = "SELECT * FROM documents WHERE id = ?";
+    private static final String SQL_UPDATE_DOCUMENT    = "UPDATE documents SET name=?, author=?, path=?, description=? WHERE id=?";
+    private static final String SQL_DELETE_DOCUMENT    = "DELETE FROM documents WHERE id=?";
+    private static final String SQL_GET_ALL_DOCUMENTS  = "SELECT * FROM documents";
 
     private JdbcTemplate jdbcTemplate;
 
@@ -32,15 +26,14 @@ public class DocumentDAOImpl implements DocumentDAO {
 
     @Autowired
     public void setDataSource(DataSource dataSource) {
-        this.dataSource = dataSource;
+         jdbcTemplate = new JdbcTemplate(dataSource);
         this.simpleJdbcInsert = new SimpleJdbcInsert(dataSource).withTableName("documents").usingGeneratedKeyColumns("id");
     }
 
     @Override
     public Document getDocument(int id) {
-        jdbcTemplate = new JdbcTemplate(dataSource);
         try {
-            return (Document) jdbcTemplate.queryForObject(SQL_GET_DOCUMENT_BY_ID, new Object[]{id}, new BeanPropertyRowMapper(Document.class));
+            return jdbcTemplate.queryForObject(SQL_GET_DOCUMENT_BY_ID, new Object[]{id}, new BeanPropertyRowMapper<>(Document.class));
         } catch (EmptyResultDataAccessException e) {
             // Document not found
             e.printStackTrace();
@@ -80,9 +73,8 @@ public class DocumentDAOImpl implements DocumentDAO {
 
     @Override
     public List<Document> getAllDocuments() {
-        jdbcTemplate = new JdbcTemplate(dataSource);
         try {
-            return jdbcTemplate.query(SQL_GET_ALL_DOCUMENTS, new BeanPropertyRowMapper(Document.class));
+            return jdbcTemplate.query(SQL_GET_ALL_DOCUMENTS, new BeanPropertyRowMapper<>(Document.class));
         } catch (EmptyResultDataAccessException e) {
             // Document not found
             e.printStackTrace();
