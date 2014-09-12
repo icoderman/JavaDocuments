@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<schema version="1.5">
+
+	<field name="id" type="int" indexed="true" stored="true" required="true"/>
+	<field name="name" type="string" indexed="true" stored="true" required="true"/>
+	<field name="author" type="string" indexed="true" stored="true" required="true"/>
+	<!--field name="path" type="string" indexed="true" stored="true" required="true"/ -->
+	<!--field name="description" type="string" indexed="true" stored="true" required="true"/ -->
+	<field name="createddate" type="date" indexed="true" stored="true" required="true"/>	
+
+	<field name="text" type="text_general" indexed="true" stored="false" multiValued="true"/>
+
+	<uniqueKey>id</uniqueKey>
+
+
+	<fieldType name="int" class="solr.IntField"/>
+	<fieldType name="string" class="solr.StrField" />
+	<fieldType name="date" class="solr.TrieDateField" />
+
+
+	<!-- A general text field that has reasonable, generic
+     cross-language defaults: it tokenizes with StandardTokenizer,
+	 removes stop words from case-insensitive "stopwords.txt"
+	 (empty by default), and down cases.  At query time only, it
+	 also applies synonyms. -->
+    <fieldType name="text_general" class="solr.TextField" positionIncrementGap="100">
+	    <analyzer type="index">
+		    <tokenizer class="solr.NGramTokenizerFactory" minGramSize="3" maxGramSize="15" />
+		    <filter class="solr.LowerCaseFilterFactory"/>
+		</analyzer>
+		<analyzer type="query">
+		    <tokenizer class="solr.WhitespaceTokenizerFactory" />
+		    <filter class="solr.LowerCaseFilterFactory"/>
+		</analyzer>
+    </fieldType>
+
+
+	<copyField source="name" dest="text"/>
+	<copyField source="author" dest="text"/>
+	<!--copyField source="path" dest="text"/ -->
+	<!--copyField source="description" dest="text"/ -->
+
+
+	<dynamicField name="*_txt" type="text_general"   indexed="true"  stored="true" multiValued="true"/>
+	
+</schema>

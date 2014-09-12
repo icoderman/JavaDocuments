@@ -6,7 +6,7 @@
 -!6. Add @Transactional
 -!7.ResponseEntity
 
-
+- . learn jackson annotations
 !8.  use Spring BeanPropertyRowMapper
 9.  user logger
 10. learn how to retrieve Results using solr QueryResponse
